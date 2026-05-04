@@ -16,8 +16,6 @@ const api = axios.create({
   }
 });
 
-export default api;
-
 // ─── Request interceptor: attach JWT ────────────────────────────────────────
 api.interceptors.request.use(
   (config) => {
