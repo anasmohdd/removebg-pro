@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: removebg-pro-api
+    env: node
+    region: oregon
+    plan: free
+    rootDir: server
+    buildCommand: npm install
+    startCommand: node index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: REMOVE_BG_API_KEY
+        sync: false          # Set this manually in Render dashboard
+      - key: CLIENT_URL
+        sync: false          # Your Vercel frontend URL
+      - key: DEFAULT_CREDITS
+        value: "5"
