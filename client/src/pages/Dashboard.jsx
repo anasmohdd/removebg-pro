@@ -196,16 +196,13 @@ export default function Dashboard() {
   async function handleDownload() {
     if (!resultUrl) return;
     try {
-      const response = await fetch(resultUrl);
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
-      a.href = url;
-      a.download = `removebg-pro-result.png`;
+      a.href = resultUrl;
+      a.target = "_blank";
+      a.download = "removebg-pro-result.png";
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-      URL.revokeObjectURL(url);
       addToast("Image downloaded successfully!", "success");
     } catch {
       addToast("Download failed. Try right-clicking the image to save.", "error");
