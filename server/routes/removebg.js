@@ -44,7 +44,7 @@ router.post("/", authMiddleware, async (req, res) => {
   try {
     const formData = new FormData();
     formData.append("image_file", fs.createReadStream(originalPath));
-    formData.append("size", "auto");
+    formData.append("size", "full");
 
     const apiKey = process.env.REMOVE_BG_API_KEY;
     if (!apiKey || apiKey === "your_remove_bg_api_key_here") {
