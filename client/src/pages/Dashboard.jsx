@@ -194,20 +194,31 @@ export default function Dashboard() {
 
   // ─── Download result ──────────────────────────────────────────────────────
   async function handleDownload() {
-    if (!resultUrl) return;
-    try {
-      const a = document.createElement("a");
-      a.href = resultUrl;
-      a.target = "_blank";
-      a.download = "removebg-pro-result.png";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      addToast("Image downloaded successfully!", "success");
-    } catch {
-      addToast("Download failed. Try right-clicking the image to save.", "error");
-    }
+  if (!resultUrl) return;
+  try {
+    // Extract filename from result URL
+    const filename = resultUrl.split("/").pop();
+    const token = localStorage.getItem("rbg_token");
+    
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL || "/api"}/remove-bg/download/${filename}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "removebg-pro-result.png";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    addToast("Image downloaded successfully!", "success");
+  } catch {
+    addToast("Download failed. Try right-clicking the image to save.", "error");
   }
+}
 
   const isWorking = uploading || processing;
 

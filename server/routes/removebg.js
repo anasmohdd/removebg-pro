@@ -142,4 +142,18 @@ router.delete("/cleanup", authMiddleware, (req, res) => {
   res.json({ message: "Files cleaned up." });
 });
 
+// Download endpoint - forces file download
+router.get("/download/:filename", authMiddleware, (req, res) => {
+  const filename = path.basename(req.params.filename);
+  const filePath = path.join(__dirname, "..", "uploads", filename);
+  
+  if (!fs.existsSync(filePath)) {
+    return res.status(404).json({ error: "File not found." });
+  }
+  
+  res.setHeader("Content-Disposition", `attachment; filename="removebg-result.png"`);
+  res.setHeader("Content-Type", "image/png");
+  res.sendFile(filePath);
+});
+
 module.exports = router;
