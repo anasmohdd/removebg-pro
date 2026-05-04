@@ -6,13 +6,17 @@
 
 import axios from "axios";
 
-const BASE_URL = import.meta.env.VITE_API_URL || "/api";
+const BASE_URL = "https://removebg-pro-2o3u.onrender.com/api";
 
 const api = axios.create({
   baseURL: BASE_URL,
-  timeout: 120000, // 2 minutes (image processing can be slow)
-  headers: { "Content-Type": "application/json" },
+  timeout: 120000,
+  headers: {
+    "Content-Type": "application/json"
+  }
 });
+
+export default api;
 
 // ─── Request interceptor: attach JWT ────────────────────────────────────────
 api.interceptors.request.use(
